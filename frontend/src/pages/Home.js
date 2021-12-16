@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { Link } from 'react-router-dom'
 
 const Home = () => {
   const [users, setUsers] = useState(null)
@@ -9,10 +10,23 @@ const Home = () => {
       .then(data => setUsers(data))
   }, [])
 
+  if (!users) {
+    return <h1>Chargement...</h1>
+  }
+
   console.log(users)
   return (
     <div>
-      Home
+      <Link to="/formuser">New user</Link>
+      {users.map(element => {
+        return (
+          <p key={element.name}>
+            <Link to={`/users/${element.slug}`}>
+              {element.name}
+            </Link>
+          </p>
+        )
+      })}
     </div>
   )
 }
